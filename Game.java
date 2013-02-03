@@ -2,18 +2,20 @@ package bowling;
 
 public class Game {
 
-	private int ball;
-	private int itsCurrentThrow = 0;
-	private int[] itsThrows = new int[21];
 	private int itsCurrentFrame = 1;
 	private boolean firstThrowInFrame = true;
+	private Scorer itsScorer = new Scorer();
 
 	public int score() {
 		return scoreForFrame(getCurrentFrame() - 1);
 	}
 
+	public int getCurrentFrame() {
+		return itsCurrentFrame;
+	}
+
 	public void add(int pins) {
-		this.itsThrows[itsCurrentThrow++] = pins;
+		itsScorer.addThrow(pins);
 		adjustCurrentFrame(pins);
 	}
 
@@ -31,49 +33,6 @@ public class Game {
 	}
 
 	public int scoreForFrame(int theFrame) {
-		ball = 0;
-		int score = 0;
-		for (int currentFrame = 0; currentFrame < theFrame; currentFrame++) {
-			if (strike())
-				score += 10 + nextTwoBalls();
-			else if (spare())
-				score += 10 + nextBall();
-			else
-				score += twoBallsInFrame();
-		}
-
-		return score;
-	}
-
-	private boolean strike() {
-		if (itsThrows[ball] == 10) {
-			ball++;
-			return true;
-		}
-		return false;
-	}
-
-	private int nextTwoBalls() {
-		return itsThrows[ball] + itsThrows[ball + 1];
-	}
-
-	private boolean spare() {
-		if ((itsThrows[ball] + itsThrows[ball + 1]) == 10) {
-			ball += 2;
-			return true;
-		}
-		return false;
-	}
-
-	private int nextBall() {
-		return itsThrows[ball];
-	}
-
-	private int twoBallsInFrame() {
-		return itsThrows[ball++] + itsThrows[ball++];
-	}
-
-	public int getCurrentFrame() {
-		return itsCurrentFrame;
+		return itsScorer.scoreForFrame(theFrame);
 	}
 }
