@@ -3,10 +3,6 @@ package bowling;
 public class Game {
 
 	private int ball;
-	private int firstThrow;
-	private int secondThrow;
-
-	private int itsScore = 0;
 	private int itsCurrentThrow = 0;
 	private int[] itsThrows = new int[21];
 	private int itsCurrentFrame = 1;
@@ -18,7 +14,6 @@ public class Game {
 
 	public void add(int pins) {
 		this.itsThrows[itsCurrentThrow++] = pins;
-		this.itsScore += pins;
 		adjustCurrentFrame(pins);
 	}
 
