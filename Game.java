@@ -42,8 +42,12 @@ public class Game {
 			if (strike()) {
 				ball++;
 				score += 10 + nextTwoBalls();
+			} else if (spare()) {
+				ball += 2;
+				score += 10 + nextBall();
 			} else {
-				score += handleSecondThrow();
+				score += twoBallsInFrame();
+				ball += 2;
 			}
 		}
 
@@ -56,19 +60,6 @@ public class Game {
 
 	private int nextTwoBalls() {
 		return itsThrows[ball] + itsThrows[ball + 1];
-	}
-
-	private int handleSecondThrow() {
-		int score = 0;
-		// spare needs next frames first throw
-		if (spare()) {
-			ball += 2;
-			score += 10 + nextBall();
-		} else {
-			score += twoBallsInFrame();
-			ball += 2;
-		}
-		return score;
 	}
 
 	private boolean spare() {
